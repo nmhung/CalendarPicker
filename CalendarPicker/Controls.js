@@ -2,6 +2,7 @@ import React from 'react';
 import {
   TouchableOpacity,
   Text,
+  View
 } from 'react-native';
 import PropTypes from 'prop-types';
 
