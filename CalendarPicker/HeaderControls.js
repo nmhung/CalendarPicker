@@ -40,7 +40,7 @@ export default function HeaderControls(props) {
         labelComponentProps={labelLeftProps}
         onPressControl={onPressPrevious}
         styles={[styles.monthSelector, styles.prev]}
-        compStyles={[styles.monthSelectorComp, styles.prev]}
+        compStyles={[styles.monthSelectorComp]}
         textStyles={textStyle}
       />
       <View>
@@ -54,7 +54,7 @@ export default function HeaderControls(props) {
         labelComponentProps={labelRightProps}
         onPressControl={onPressNext}
         styles={[styles.monthSelector, styles.next]}
-        compStyles={[styles.monthSelectorComp, styles.next]}
+        compStyles={[styles.monthSelectorComp, { flexDirection: 'row', justifyContent: 'flex-end' }]}
         textStyles={textStyle}
       />
     </View>

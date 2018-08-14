@@ -15,7 +15,10 @@ export default function Controls({ styles, compStyles, textStyles, LabelComponen
           ? <Text style={[styles, textStyles]}>
             {label}
           </Text>
-          : <LabelComponent {...labelComponentProps} style={[compStyles, labelComponentProps.styles]} />
+          :
+          <View style={compStyles}>
+            <LabelComponent {...labelComponentProps} style={[labelComponentProps.styles]} />
+          </View>
       }
     </TouchableOpacity>
   );
