@@ -19,7 +19,8 @@ export default function HeaderControls(props) {
     nextTitle,
     textStyle,
     monthTitleTextStyle,
-    labelComponent,
+    labelRightComponent,
+    labelLeftComponent
   } = props;
   const MONTHS = months ? months : Utils.MONTHS; // English Month Array
   // getMonth() call below will return the month number, we will use it as the
@@ -33,7 +34,7 @@ export default function HeaderControls(props) {
     <View style={styles.headerWrapper}>
       <Controls
         label={previous}
-        labelComponent={labelComponent}
+        labelComponent={labelLeftComponent}
         onPressControl={onPressPrevious}
         styles={[styles.monthSelector, styles.prev]}
         textStyles={textStyle}
@@ -45,7 +46,7 @@ export default function HeaderControls(props) {
       </View>
       <Controls
         label={next}
-        labelComponent={labelComponent}
+        labelComponent={labelRightComponent}
         onPressControl={onPressNext}
         styles={[styles.monthSelector, styles.next]}
         textStyles={textStyle}

@@ -229,7 +229,8 @@ export default class CalendarPicker extends Component {
       swipeConfig,
       customDatesStyles,
       monthTitleTextStyle,
-      labelComponent,
+      labelRightComponent,
+      labelLeftComponent
     } = this.props;
 
     let disabledDatesTime = [];
@@ -289,7 +290,8 @@ export default class CalendarPicker extends Component {
             nextTitle={nextTitle}
             textStyle={textStyle}
             monthTitleTextStyle={monthTitleTextStyle}
-            labelComponent={labelComponent}
+            labelRightComponent={labelRightComponent}
+            labelLeftComponent={labelLeftComponent}
           />
           <Weekdays
             styles={styles}
