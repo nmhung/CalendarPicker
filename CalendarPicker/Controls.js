@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 
-export default function Controls({ styles, textStyles, labelComponent, labelComponentProps, label, onPressControl }) {
+export default function Controls({ styles, textStyles, LabelComponent, labelComponentProps, label, onPressControl }) {
   return (
     <TouchableOpacity
       onPress={() => onPressControl()}
@@ -15,7 +15,7 @@ export default function Controls({ styles, textStyles, labelComponent, labelComp
           ? <Text style={[styles, textStyles]}>
             {label}
           </Text>
-          : <labelComponent {...labelComponentProps} style={[styles, labelComponentProps.styles]} />
+          : <LabelComponent {...labelComponentProps} style={[styles, labelComponentProps.styles]} />
       }
     </TouchableOpacity>
   );
