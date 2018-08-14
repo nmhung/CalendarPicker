@@ -39,7 +39,8 @@ export default function HeaderControls(props) {
         LabelComponent={labelLeftComponent}
         labelComponentProps={labelLeftProps}
         onPressControl={onPressPrevious}
-        styles={[styles.monthSelector, styles.prev, styles.monthSelectorComp]}
+        styles={[styles.monthSelector, styles.prev]}
+        compStyles={[styles.monthSelectorComp, styles.prev]}
         textStyles={textStyle}
       />
       <View>
@@ -53,6 +54,7 @@ export default function HeaderControls(props) {
         labelComponentProps={labelRightProps}
         onPressControl={onPressNext}
         styles={[styles.monthSelector, styles.next]}
+        compStyles={[styles.monthSelectorComp, styles.next]}
         textStyles={textStyle}
       />
     </View>
