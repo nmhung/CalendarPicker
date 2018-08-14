@@ -11,7 +11,7 @@ export default function Controls({ styles, textStyles, LabelComponent, labelComp
       onPress={() => onPressControl()}
     >
       {
-        !labelComponent
+        !LabelComponent
           ? <Text style={[styles, textStyles]}>
             {label}
           </Text>
