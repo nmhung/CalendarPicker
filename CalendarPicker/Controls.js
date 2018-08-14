@@ -6,7 +6,6 @@ import {
 import PropTypes from 'prop-types';
 
 export default function Controls({ styles, textStyles, LabelComponent, labelComponentProps, label, onPressControl }) {
-  console.log(styles.monthSelectorComp)
   return (
     <TouchableOpacity
       onPress={() => onPressControl()}
