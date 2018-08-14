@@ -230,7 +230,9 @@ export default class CalendarPicker extends Component {
       customDatesStyles,
       monthTitleTextStyle,
       labelRightComponent,
-      labelLeftComponent
+      labelRightProps,
+      labelLeftComponent,
+      labelLeftProps
     } = this.props;
 
     let disabledDatesTime = [];
@@ -291,7 +293,9 @@ export default class CalendarPicker extends Component {
             textStyle={textStyle}
             monthTitleTextStyle={monthTitleTextStyle}
             labelRightComponent={labelRightComponent}
+            labelRightProps={labelRightProps}
             labelLeftComponent={labelLeftComponent}
+            labelLeftProps={labelLeftProps}
           />
           <Weekdays
             styles={styles}
