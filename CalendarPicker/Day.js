@@ -30,9 +30,11 @@ export default function Day(props) {
     disabledDates,
     minRangeDuration,
     maxRangeDuration,
+    markedDates,
+    withMarkedDates
   } = props;
 
-  const thisDay = moment({year, month, day});
+  const thisDay = moment({ year, month, day });
   const today = moment();
 
   let dateOutOfRange;
@@ -62,25 +64,25 @@ export default function Day(props) {
 
   if (allowRangeSelection && minRangeDuration && selectedStartDate && thisDay.valueOf() > selectedStartDate.valueOf()) {
     if (Array.isArray(minRangeDuration)) {
-      let i = minRangeDuration.findIndex((i)=>(i.date === selectedStartDate.valueOf()));
+      let i = minRangeDuration.findIndex((i) => (i.date === selectedStartDate.valueOf()));
       if (i >= 0 && selectedStartDate.valueOf() + minRangeDuration[i].minDuration * 86400000 > thisDay.valueOf()) {
         dateIsBeforeMinDuration = true;
       }
-    } else if(selectedStartDate.valueOf() + minRangeDuration * 86400000 > thisDay.valueOf()) {
+    } else if (selectedStartDate.valueOf() + minRangeDuration * 86400000 > thisDay.valueOf()) {
       dateIsBeforeMinDuration = true;
     }
   }
 
-	if (allowRangeSelection && maxRangeDuration && selectedStartDate && thisDay.valueOf() > selectedStartDate.valueOf()) {
-		if (Array.isArray(maxRangeDuration)) {
-			let i = maxRangeDuration.findIndex((i)=>(i.date === selectedStartDate.valueOf()));
-			if (i >= 0 && selectedStartDate.valueOf() + maxRangeDuration[i].maxDuration * 86400000 < thisDay.valueOf()) {
-				dateIsAfterMaxDuration = true;
-			}
-		} else if(selectedStartDate.valueOf() + maxRangeDuration * 86400000 < thisDay.valueOf()) {
-			dateIsAfterMaxDuration = true;
-		}
-	}
+  if (allowRangeSelection && maxRangeDuration && selectedStartDate && thisDay.valueOf() > selectedStartDate.valueOf()) {
+    if (Array.isArray(maxRangeDuration)) {
+      let i = maxRangeDuration.findIndex((i) => (i.date === selectedStartDate.valueOf()));
+      if (i >= 0 && selectedStartDate.valueOf() + maxRangeDuration[i].maxDuration * 86400000 < thisDay.valueOf()) {
+        dateIsAfterMaxDuration = true;
+      }
+    } else if (selectedStartDate.valueOf() + maxRangeDuration * 86400000 < thisDay.valueOf()) {
+      dateIsAfterMaxDuration = true;
+    }
+  }
 
   dateOutOfRange = dateIsAfterMax || dateIsBeforeMin || dateIsDisabled || dateIsBeforeMinDuration || dateIsAfterMaxDuration;
 
@@ -113,8 +115,8 @@ export default function Day(props) {
 
     // set selected day style
     if (!allowRangeSelection &&
-        selectedStartDate &&
-        isThisDaySameAsSelectedStart) {
+      selectedStartDate &&
+      isThisDaySameAsSelectedStart) {
       daySelectedStyle = styles.selectedDay;
       selectedDayColorStyle = [styles.selectedDayLabel, isToday && todayTextStyle];
       // selectedDayStyle prop overrides selectedDayColor (created via makeStyles)
@@ -124,7 +126,7 @@ export default function Day(props) {
     // Set selected ranges styles
     if (allowRangeSelection) {
       if (selectedStartDate && selectedEndDate) {
-          // Apply style for start date
+        // Apply style for start date
         if (isThisDaySameAsSelectedStart) {
           daySelectedStyle = [styles.startDayWrapper, selectedRangeStyle, selectedRangeStartStyle];
           selectedDayColorStyle = styles.selectedDayLabel;
@@ -136,10 +138,10 @@ export default function Day(props) {
         }
         // Apply style if start date is the same as end date
         if (isThisDaySameAsSelectedEnd &&
-            isThisDaySameAsSelectedStart &&
-            selectedEndDate.isSame(selectedStartDate, 'day')) {
-            daySelectedStyle = [styles.selectedDay, styles.selectedDayBackground, selectedRangeStyle];
-            selectedDayColorStyle = styles.selectedDayLabel;
+          isThisDaySameAsSelectedStart &&
+          selectedEndDate.isSame(selectedStartDate, 'day')) {
+          daySelectedStyle = [styles.selectedDay, styles.selectedDayBackground, selectedRangeStyle];
+          selectedDayColorStyle = styles.selectedDayLabel;
         }
         // Apply style if this day is in range
         if (thisDay.isBetween(selectedStartDate, selectedEndDate, 'day')) {
@@ -149,20 +151,37 @@ export default function Day(props) {
       }
       // Apply style if start date has been selected but end date has not
       if (selectedStartDate &&
-          !selectedEndDate &&
-          isThisDaySameAsSelectedStart) {
-          daySelectedStyle = [styles.selectedDay, selectedRangeStyle, selectedRangeStartStyle || styles.selectedDayBackground];
-          selectedDayColorStyle = styles.selectedDayLabel;
+        !selectedEndDate &&
+        isThisDaySameAsSelectedStart) {
+        daySelectedStyle = [styles.selectedDay, selectedRangeStyle, selectedRangeStartStyle || styles.selectedDayBackground];
+        selectedDayColorStyle = styles.selectedDayLabel;
       }
     }
-
+    if (withMarkedDates) {
+      return (
+        <View style={[styles.dayWrapper, customContainerStyle]}>
+          <TouchableOpacity
+            style={[customDateStyle, daySelectedStyle, propSelectedDayStyle]}
+            onPress={() => onPressDay(day)}>
+            <Text style={[styles.markDayLabel, textStyle, selectedDayColorStyle, customTextStyle]}>
+              {day}
+            </Text>
+            <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+              {markedDates.map((markedDate, index) => (
+                <View key={`marked_date_${index}`} style={[styles.marking, markedDate.markingStyles]} />
+              ))}
+            </View>
+          </TouchableOpacity>
+        </View>
+      )
+    }
     return (
       <View style={[styles.dayWrapper, customContainerStyle]}>
         <TouchableOpacity
-          style={[customDateStyle, daySelectedStyle, propSelectedDayStyle ]}
-          onPress={() => onPressDay(day) }>
+          style={[customDateStyle, daySelectedStyle, propSelectedDayStyle]}
+          onPress={() => onPressDay(day)}>
           <Text style={[styles.dayLabel, textStyle, selectedDayColorStyle, customTextStyle]}>
-            { day }
+            {day}
           </Text>
         </TouchableOpacity>
       </View>
@@ -172,7 +191,7 @@ export default function Day(props) {
     return (
       <View style={styles.dayWrapper}>
         <Text style={[textStyle, styles.disabledText]}>
-          { day }
+          {day}
         </Text>
       </View>
     )

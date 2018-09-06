@@ -32,6 +32,19 @@ export function makeStyles(scaler, backgroundColor, textColor, todayBackgroundCo
       alignSelf: 'center'
     },
 
+    markDayLabel: {
+      fontSize: 12 * scaler,
+      color: '#000',
+      alignSelf: 'center'
+    },
+
+    marking: {
+      height: 3,
+      width: 3,
+      borderRadius: 1.5,
+      backgroundColor: 'black'
+    },
+
     selectedDayLabel: {
       color: SELECTED_TEXT_COLOR,
     },

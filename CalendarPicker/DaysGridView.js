@@ -35,6 +35,8 @@ export default function DaysGridView(props) {
     disabledDates,
     minRangeDuration,
     maxRangeDuration,
+    markedDates,
+    withMarkedDates
   } = props;
   const today = moment();
   // let's get the total of days in this month, we need the year as well, since
@@ -47,8 +49,8 @@ export default function DaysGridView(props) {
   // See https://github.com/stephy/CalendarPicker/issues/49
   const firstWeekDay = firstDayOfMonth.isoWeekday();
   // fill up an array of days with the amount of days in the current month
-  const days = Array.apply(null, {length: totalDays}).map(Number.call, Number);
-  const guideArray = [ 0, 1, 2, 3, 4, 5, 6 ];
+  const days = Array.apply(null, { length: totalDays }).map(Number.call, Number);
+  const guideArray = [0, 1, 2, 3, 4, 5, 6];
 
   // Get the starting index, based upon whether we are using monday or sunday as first day.
   const startIndex = (startFromMonday) ? (firstWeekDay - 1) % 7 : firstWeekDay;
@@ -58,11 +60,12 @@ export default function DaysGridView(props) {
       if (i === 0) { // for first row, let's start showing the days on the correct weekday
         if (index >= startIndex) {
           if (days.length > 0) {
-            const day= days.shift() + 1;
+            const day = days.shift() + 1;
             return (
               <Day
                 key={day}
                 day={day}
+                markedDates={markedDates[`${day}${month}${year}`]}
                 month={month}
                 year={year}
                 styles={styles}
@@ -82,6 +85,7 @@ export default function DaysGridView(props) {
                 selectedRangeStyle={selectedRangeStyle}
                 selectedRangeEndStyle={selectedRangeEndStyle}
                 customDatesStyles={customDatesStyles}
+                withMarkedDates={withMarkedDates}
               />
             );
           }
@@ -90,16 +94,18 @@ export default function DaysGridView(props) {
             <EmptyDay
               key={uuid()}
               styles={styles}
+              withMarkedDates={withMarkedDates}
             />
           );
         }
       } else {
         if (days.length > 0) {
-          const day= days.shift() + 1;
+          const day = days.shift() + 1;
           return (
             <Day
               key={day}
               day={day}
+              markedDates={markedDates[`${day}${month}${year}`]}
               month={month}
               year={year}
               styles={styles}
@@ -119,6 +125,7 @@ export default function DaysGridView(props) {
               selectedRangeStyle={selectedRangeStyle}
               selectedRangeEndStyle={selectedRangeEndStyle}
               customDatesStyles={customDatesStyles}
+              withMarkedDates={withMarkedDates}
             />
           );
         }
@@ -129,11 +136,11 @@ export default function DaysGridView(props) {
   }
   return (
     <View style={styles.daysWrapper}>
-      { guideArray.map(index => (
-          <View key={index} style={styles.weekRow}>
-            { generateColumns(index) }
-          </View>
-        ))
+      {guideArray.map(index => (
+        <View key={index} style={styles.weekRow}>
+          {generateColumns(index)}
+        </View>
+      ))
       }
     </View>
   );

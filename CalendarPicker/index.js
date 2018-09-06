@@ -232,8 +232,14 @@ export default class CalendarPicker extends Component {
       labelRightComponent,
       labelRightProps,
       labelLeftComponent,
-      labelLeftProps
+      labelLeftProps,
+      markedDates
     } = this.props;
+
+    const formattedMarkedDates = {}
+    markedDates.map(({ dateKey, markingStyles }) => {
+      formattedMarkedDates[dateKey] = [...formattedMarkedDates[dateKey], { markingStyles: markingStyles }]
+    })
 
     let disabledDatesTime = [];
 
@@ -324,6 +330,8 @@ export default class CalendarPicker extends Component {
             selectedRangeStyle={selectedRangeStyle}
             selectedRangeEndStyle={selectedRangeEndStyle}
             customDatesStyles={customDatesStyles}
+            markedDates={markedDates}
+            withMarkedDates={markedDates && !markedDates.length}
           />
         </View>
       </Swiper>
