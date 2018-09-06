@@ -166,11 +166,17 @@ export default function Day(props) {
             <Text style={[styles.markDayLabel, textStyle, selectedDayColorStyle, customTextStyle]}>
               {day}
             </Text>
-            <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-              {markedDates.map((markedDate, index) => (
-                <View key={`marked_date_${index}`} style={[styles.marking, markedDate.markingStyles]} />
-              ))}
-            </View>
+            {
+              markedDates && <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+                {markedDates.map((markedDate, index) => {
+                  if (index > 3) { return null }
+                  return (
+                    <View key={`marked_date_${index}`} style={[styles.marking, markedDate.markingStyles]} />
+                  )
+                })}
+              </View>
+            }
+
           </TouchableOpacity>
         </View>
       )

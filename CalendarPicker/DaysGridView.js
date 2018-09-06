@@ -54,7 +54,6 @@ export default function DaysGridView(props) {
 
   // Get the starting index, based upon whether we are using monday or sunday as first day.
   const startIndex = (startFromMonday) ? (firstWeekDay - 1) % 7 : firstWeekDay;
-
   function generateColumns(i) {
     const column = guideArray.map(index => {
       if (i === 0) { // for first row, let's start showing the days on the correct weekday
@@ -65,7 +64,7 @@ export default function DaysGridView(props) {
               <Day
                 key={day}
                 day={day}
-                markedDates={markedDates[`${day}${month}${year}`]}
+                markedDates={markedDates[`${day}${month + 1}${year}`]}
                 month={month}
                 year={year}
                 styles={styles}
@@ -105,7 +104,7 @@ export default function DaysGridView(props) {
             <Day
               key={day}
               day={day}
-              markedDates={markedDates[`${day}${month}${year}`]}
+              markedDates={markedDates[`${day}${month + 1}${year}`]}
               month={month}
               year={year}
               styles={styles}

@@ -42,7 +42,9 @@ export function makeStyles(scaler, backgroundColor, textColor, todayBackgroundCo
       height: 3,
       width: 3,
       borderRadius: 1.5,
-      backgroundColor: 'black'
+      backgroundColor: 'black',
+      marginRight: 1,
+      marginLeft: 1,
     },
 
     selectedDayLabel: {

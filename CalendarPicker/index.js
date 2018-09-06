@@ -237,10 +237,10 @@ export default class CalendarPicker extends Component {
     } = this.props;
 
     const formattedMarkedDates = {}
-    markedDates.map(({ dateKey, markingStyles }) => {
+    markedDates && markedDates.map(({ dateKey, markingStyles }) => {
+      if (!formattedMarkedDates[dateKey]) { formattedMarkedDates[dateKey] = [] }
       formattedMarkedDates[dateKey] = [...formattedMarkedDates[dateKey], { markingStyles: markingStyles }]
     })
-
     let disabledDatesTime = [];
 
     // Convert input date into timestamp
@@ -330,8 +330,8 @@ export default class CalendarPicker extends Component {
             selectedRangeStyle={selectedRangeStyle}
             selectedRangeEndStyle={selectedRangeEndStyle}
             customDatesStyles={customDatesStyles}
-            markedDates={markedDates}
-            withMarkedDates={markedDates && !markedDates.length}
+            markedDates={formattedMarkedDates}
+            withMarkedDates={markedDates && !!markedDates.length}
           />
         </View>
       </Swiper>
