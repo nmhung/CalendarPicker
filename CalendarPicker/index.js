@@ -11,6 +11,7 @@ import HeaderControls from './HeaderControls';
 import Weekdays from './Weekdays';
 import DaysGridView from './DaysGridView';
 import Swiper from './Swiper';
+import CollapsibleList from './CollapsibleList'
 import moment from 'moment';
 
 const SWIPE_LEFT = 'SWIPE_LEFT';
@@ -27,6 +28,7 @@ export default class CalendarPicker extends Component {
     this.state = {
       currentMonth: null,
       currentYear: null,
+      collapsed: false,
       selectedStartDate: props.selectedStartDate || null,
       selectedEndDate: props.selectedEndDate || null,
       styles: {},
@@ -139,10 +141,18 @@ export default class CalendarPicker extends Component {
   }
 
   handleOnPressPrevious() {
-    let { currentMonth, currentYear } = this.state;
+    let { currentMonth, currentYear, collapsed, selectedStartDate } = this.state;
     let previousMonth = currentMonth - 1;
     // if previousMonth is negative it means the current month is January,
     // so we have to go back to previous year and set the current month to December
+    if (collapsed) {
+      const date = selectedStartDate;
+      const yesterday = moment(date).subtract(1, 'days')
+      this.setState({ selectedStartDate: yesterday })
+      this.props.onDateChange(yesterday, Utils.START_DATE)
+      return
+    }
+
     if (previousMonth < 0) {
       previousMonth = 11;
       currentYear -= 1;  // decrement year
@@ -160,10 +170,18 @@ export default class CalendarPicker extends Component {
   }
 
   handleOnPressNext() {
-    let { currentMonth, currentYear } = this.state;
+    let { currentMonth, currentYear, collapsed, selectedStartDate } = this.state;
     let nextMonth = currentMonth + 1;
     // if nextMonth is greater than 11 it means the current month is December,
     // so we have to go forward to the next year and set the current month to January
+    if (collapsed) {
+      const date = selectedStartDate;
+      const tomorrow = moment(date).add(1, 'days')
+      this.setState({ selectedStartDate: tomorrow })
+      this.props.onDateChange(tomorrow, Utils.START_DATE)
+      return
+    }
+
     if (nextMonth > 11) {
       nextMonth = 0;
       currentYear += 1;  // increment year
@@ -205,6 +223,7 @@ export default class CalendarPicker extends Component {
       selectedStartDate,
       selectedEndDate,
       styles,
+      collapsed
     } = this.state;
 
     const {
@@ -233,7 +252,14 @@ export default class CalendarPicker extends Component {
       labelRightProps,
       labelLeftComponent,
       labelLeftProps,
-      markedDates
+      markedDates,
+      collapsible,
+      collapsibleStyles,
+      collapsedTitleStyle,
+      collapsibleIcon,
+      calendarStyles,
+      headerWrapperStyle,
+      calendarContentStyle
     } = this.props;
 
     const formattedMarkedDates = {}
@@ -285,11 +311,12 @@ export default class CalendarPicker extends Component {
         onSwipe={direction => this.props.enableSwipe && this.onSwipe(direction)}
         config={{ ..._swipeConfig, ...swipeConfig }}
       >
-        <View syles={styles.calendar}>
+        <View syles={[styles.calendar, calendarStyles]}>
           <HeaderControls
             styles={styles}
             currentMonth={currentMonth}
             currentYear={currentYear}
+            collapsed={collapsed}
             initialDate={moment(initialDate)}
             onPressPrevious={this.handleOnPressPrevious}
             onPressNext={this.handleOnPressNext}
@@ -302,37 +329,96 @@ export default class CalendarPicker extends Component {
             labelRightProps={labelRightProps}
             labelLeftComponent={labelLeftComponent}
             labelLeftProps={labelLeftProps}
+            selectedStartDate={selectedStartDate}
+            collapsedTitleStyle={collapsedTitleStyle}
+            headerWrapperStyle={headerWrapperStyle}
           />
-          <Weekdays
-            styles={styles}
-            startFromMonday={startFromMonday}
-            weekdays={weekdays}
-            textStyle={textStyle}
-          />
-          <DaysGridView
-            month={currentMonth}
-            year={currentYear}
-            styles={styles}
-            onPressDay={this.handleOnPressDay}
-            disabledDates={disabledDatesTime}
-            minRangeDuration={minRangeDurationTime}
-            maxRangeDuration={maxRangeDurationTime}
-            startFromMonday={startFromMonday}
-            allowRangeSelection={allowRangeSelection}
-            selectedStartDate={selectedStartDate && moment(selectedStartDate)}
-            selectedEndDate={selectedEndDate && moment(selectedEndDate)}
-            minDate={minDate && moment(minDate)}
-            maxDate={maxDate && moment(maxDate)}
-            textStyle={textStyle}
-            todayTextStyle={todayTextStyle}
-            selectedDayStyle={selectedDayStyle}
-            selectedRangeStartStyle={selectedRangeStartStyle}
-            selectedRangeStyle={selectedRangeStyle}
-            selectedRangeEndStyle={selectedRangeEndStyle}
-            customDatesStyles={customDatesStyles}
-            markedDates={formattedMarkedDates}
-            withMarkedDates={markedDates && !!markedDates.length}
-          />
+          {
+            collapsible
+              ? <CollapsibleList
+                numberOfVisibleItems={1}
+                touchStyle={collapsibleStyles.button}
+                buttonStyle={collapsibleStyles.expandButton}
+                iconStyle={[{ marginRight: 8, justifyContent: 'flex-end' }, collapsibleStyles.icon]}
+                icon2Style={[{ transform: [{ rotate: '180deg' }] }, collapsibleStyles.icon2]}
+                textStyle={collapsibleStyles.btnText}
+                icon={collapsibleIcon}
+                icon2={collapsibleIcon}
+                initialHeight={320}
+                defaultMinHeight={0}
+                onToggle={(collapsed) => { this.setState({ collapsed: !collapsed }) }}
+                contentWrapperStyle={calendarContentStyle}
+              >
+                <View>
+                  <Text></Text>
+                </View>
+                <View style={[{ height: 320 }, calendarContentStyle]}>
+                  <Weekdays
+                    styles={styles}
+                    startFromMonday={startFromMonday}
+                    weekdays={weekdays}
+                    textStyle={textStyle}
+                  />
+                  <DaysGridView
+                    month={currentMonth}
+                    year={currentYear}
+                    styles={styles}
+                    onPressDay={this.handleOnPressDay}
+                    disabledDates={disabledDatesTime}
+                    minRangeDuration={minRangeDurationTime}
+                    maxRangeDuration={maxRangeDurationTime}
+                    startFromMonday={startFromMonday}
+                    allowRangeSelection={allowRangeSelection}
+                    selectedStartDate={selectedStartDate && moment(selectedStartDate)}
+                    selectedEndDate={selectedEndDate && moment(selectedEndDate)}
+                    minDate={minDate && moment(minDate)}
+                    maxDate={maxDate && moment(maxDate)}
+                    textStyle={textStyle}
+                    todayTextStyle={todayTextStyle}
+                    selectedDayStyle={selectedDayStyle}
+                    selectedRangeStartStyle={selectedRangeStartStyle}
+                    selectedRangeStyle={selectedRangeStyle}
+                    selectedRangeEndStyle={selectedRangeEndStyle}
+                    customDatesStyles={customDatesStyles}
+                    markedDates={formattedMarkedDates}
+                    withMarkedDates={markedDates && !!markedDates.length}
+                  />
+                </View>
+              </CollapsibleList>
+              : <View style={[{ height: 320 }, calendarContentStyle]}>
+                <Weekdays
+                  styles={styles}
+                  startFromMonday={startFromMonday}
+                  weekdays={weekdays}
+                  textStyle={textStyle}
+                />
+                <DaysGridView
+                  month={currentMonth}
+                  year={currentYear}
+                  styles={styles}
+                  onPressDay={this.handleOnPressDay}
+                  disabledDates={disabledDatesTime}
+                  minRangeDuration={minRangeDurationTime}
+                  maxRangeDuration={maxRangeDurationTime}
+                  startFromMonday={startFromMonday}
+                  allowRangeSelection={allowRangeSelection}
+                  selectedStartDate={selectedStartDate && moment(selectedStartDate)}
+                  selectedEndDate={selectedEndDate && moment(selectedEndDate)}
+                  minDate={minDate && moment(minDate)}
+                  maxDate={maxDate && moment(maxDate)}
+                  textStyle={textStyle}
+                  todayTextStyle={todayTextStyle}
+                  selectedDayStyle={selectedDayStyle}
+                  selectedRangeStartStyle={selectedRangeStartStyle}
+                  selectedRangeStyle={selectedRangeStyle}
+                  selectedRangeEndStyle={selectedRangeEndStyle}
+                  customDatesStyles={customDatesStyles}
+                  markedDates={formattedMarkedDates}
+                  withMarkedDates={markedDates && !!markedDates.length}
+                />
+              </View>
+          }
+
         </View>
       </Swiper>
     );
