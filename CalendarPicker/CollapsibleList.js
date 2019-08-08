@@ -17,8 +17,8 @@ export default class CollapsibleList extends Component {
       //
       collapsed: true,
       initialized: false,
-      animation: new Animated.Value(),
-      fadeContentOpacity: new Animated.Value(),
+      animation: new Animated.Value(0),
+      fadeContentOpacity: new Animated.Value(1),
 
       started: false
     }
