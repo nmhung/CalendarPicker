@@ -52,8 +52,8 @@ export default function HeaderControls(props) {
         <Text style={[styles.monthLabel, textStyle, monthTitleTextStyle, collapsed ? collapsedTitleStyle : {}]}>
           {
             collapsed
-              ? moment(selectedStartDate).format('DD MMM YYYY, ddd')
-              : `${month} ${year}`
+              ? moment(selectedStartDate).add(543, 'year').format('DD MMM YYYY, ddd')
+              : `${month} ${year + 543}`
           }
         </Text>
       </View>
