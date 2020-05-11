@@ -227,6 +227,7 @@ export default class CalendarPicker extends Component {
     } = this.state;
 
     const {
+      isBuddhistYear,
       allowRangeSelection,
       startFromMonday,
       initialDate,
@@ -313,6 +314,7 @@ export default class CalendarPicker extends Component {
       >
         <View syles={[styles.calendar, calendarStyles]}>
           <HeaderControls
+            isBuddhistYear={isBuddhistYear}
             styles={styles}
             currentMonth={currentMonth}
             currentYear={currentYear}

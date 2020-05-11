@@ -10,6 +10,7 @@ import moment from 'moment'
 
 export default function HeaderControls(props) {
   const {
+    isBuddhistYear,
     styles,
     currentMonth,
     currentYear,
@@ -35,7 +36,7 @@ export default function HeaderControls(props) {
   const previous = previousTitle ? previousTitle : 'Previous';
   const next = nextTitle ? nextTitle : 'Next';
   const month = MONTHS[currentMonth];
-  const year = currentYear;
+  const year = currentYear + (isBuddhistYear ? 543 : 0);
 
   return (
     <View style={[styles.headerWrapper, headerWrapperStyle]}>
@@ -50,10 +51,10 @@ export default function HeaderControls(props) {
       />
       <View>
         <Text style={[styles.monthLabel, textStyle, monthTitleTextStyle, collapsed ? collapsedTitleStyle : {}]}>
-          {
+        {
             collapsed
-              ? moment(selectedStartDate).add(543, 'year').format('DD MMM YYYY, ddd')
-              : `${month} ${year + 543}`
+              ? `${moment(selectedStartDate).locale(isBuddhistYear ? 'th' : 'en').format('DD MMM')} ${year}, ${moment(selectedStartDate).locale(isBuddhistYear ? 'th' : 'en').format('ddd')}`
+              : `${month} ${year}`
           }
         </Text>
       </View>
