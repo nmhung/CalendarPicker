@@ -4,7 +4,7 @@
 
 This is a Calendar Picker Component for React Native
 
-![alt tag](https://raw.githubusercontent.com/stephy/CalendarPicker/master/assets/basic-react-native-calendar-picker.gif)
+![alt tag](https://raw.githubusercontent.com/nmhung/CalendarPicker/master/assets/basic-react-native-calendar-picker.gif)
 
 To use the calendar you just need to:
 ```sh
@@ -13,7 +13,7 @@ npm install --save react-native-calendar-picker
 
 *Note: react-native-calendar-picker v5 is a complete re-write of the calendar. This calendar is now written using ES6 syntax. I kept most of the same functionalities and added support for date ranges.*
 
-If you need the old code I saved it on a branch <a href="https://github.com/stephy/CalendarPicker/tree/v4">v4</a>
+If you need the old code I saved it on a branch <a href="https://github.com/nmhung/CalendarPicker/tree/v4">v4</a>
 
 # Prerequisites
 
@@ -75,6 +75,7 @@ const styles = StyleSheet.create({
 | **`weekdays`** | `Array` | Optional. List of week days. Eg. `['Mon', 'Tue', ...]` Must be 7 days |
 | **`months`** | `Array` | Optional. List of months names. Eg. `['Jan', 'Feb', ...]` Must be 12 months |
 | **`startFromMonday`** | `Boolean` | Optional. Default first day of week will be Sunday. You can set start of week from Monday by setting this to true. Default is `false` |
+| **`isBuddhistYear`** | `Boolean` | Optional. Set calendar year for Buddhist Year. Default is `false` |
 | **`allowRangeSelection`** | `Boolean` | Optional. Allow to select date ranges. Default is `false` |
 | **`previousTitle`** | `String` | Optional. Title of button for previous month. Default is `Previous` |
 | **`nextTitle`** | `String` | Optional. Title of button for next month. Default is `Next` |
@@ -85,6 +86,7 @@ const styles = StyleSheet.create({
 | **`selectedRangeEndStyle`** | `ViewStyle` | Optional. Style for range selected end day. |
 | **`selectedRangeStyle`** | `ViewStyle` | Optional. Style for all days in range selection. |
 | **`disabledDates`** | `Array` | Optional. Specifies dates that cannot be selected. Array of Dates. |
+| **`disabledWeekdayIndexes`** | `Array` | Optional. Specifies dates that cannot be selected. Array of Weekdays indexes (start from 0). |
 | **`selectedStartDate`** | `Date` | Optional. Specifies a selected Start Date. |
 | **`selectedEndDate`** | `Date` | Optional. Specifies a selected End Date. |
 | **`minRangeDuration`** | `Number or Array` | Optional. Specifies a minimum range duration when using allowRangeSelection. Can either pass a number to be used for all dates or an Array of objects if the minimum range duration depends on the date `{date: Moment-parsable date, minDuration: Number` |
@@ -118,7 +120,7 @@ Order of precedence:
 # More Examples
 
 ### Start from Monday, allowRangeSelection, Min and Max Dates and Styles Changes Example
-![alt tag](https://raw.githubusercontent.com/stephy/CalendarPicker/master/assets/default-react-native-calendar-picker.gif)
+![alt tag](https://raw.githubusercontent.com/nmhung/CalendarPicker/master/assets/default-react-native-calendar-picker.gif)
 ```js
 import React, { Component } from 'react';
 import {
@@ -191,7 +193,7 @@ const styles = StyleSheet.create({
 
 ### Complex Example, Changing Fonts and Colors, Language and etc...
 
-![alt tag](https://github.com/stephy/CalendarPicker/blob/master/assets/react-native-calendar-picker-green-color-date-range.gif)
+![alt tag](https://github.com/nmhung/CalendarPicker/blob/master/assets/react-native-calendar-picker-green-color-date-range.gif)
 
 ```js
 import React, { Component } from 'react';
@@ -336,7 +338,7 @@ I would like to call out some contributors who have been helping with this proje
 # Development
 
 ```sh
-git clone git@github.com:stephy/CalendarPicker.git CalendarPicker
+git clone git@github.com:nmhung/CalendarPicker.git CalendarPicker
 npm install
 ```
 
