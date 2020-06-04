@@ -33,6 +33,7 @@ export default function DaysGridView(props) {
     minDate,
     maxDate,
     disabledDates,
+    disabledWeekdays,
     minRangeDuration,
     maxRangeDuration,
     markedDates,
@@ -60,6 +61,7 @@ export default function DaysGridView(props) {
         if (index >= startIndex) {
           if (days.length > 0) {
             const day = days.shift() + 1;
+            addDisabledDate(index, year, month, day)
             return (
               <Day
                 key={day}
@@ -100,6 +102,7 @@ export default function DaysGridView(props) {
       } else {
         if (days.length > 0) {
           const day = days.shift() + 1;
+          addDisabledDate(index, year, month, day)
           return (
             <Day
               key={day}
@@ -133,6 +136,17 @@ export default function DaysGridView(props) {
     });
     return column;
   }
+
+  function addDisabledDate(index, year, month, day) {
+    if (disabledWeekdays && disabledWeekdays.indexOf(index) >= 0) {
+      const disabledDate = year + "-" + ('0' + (month + 1)).slice(-2) + "-" + ('0' + day).slice(-2)
+      let thisDate = moment(disabledDate);
+      thisDate.set({ 'hour': 0, 'minute': 0, 'second': 0, 'millisecond': 0 });
+      disabledDates.push(thisDate.valueOf());
+      console.log(disabledDate)
+    }
+  }
+
   return (
     <View style={styles.daysWrapper}>
       {guideArray.map(index => (
@@ -167,6 +181,7 @@ DaysGridView.propTypes = {
     textStyle: Text.propTypes.style,
   })),
   disabledDates: PropTypes.array,
+  disabledWeekdays: PropTypes.array,
   minRangeDuration: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
   maxRangeDuration: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
 }
